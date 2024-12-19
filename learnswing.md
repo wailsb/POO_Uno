@@ -213,7 +213,7 @@ Swing provides various layout managers to arrange components in a window:
 6. **GridBagLayout**: A flexible grid layout with adjustable row and column spans.
    
 These components, along with layout managers, form the foundation of Swing-based applications in Java, enabling the creation of complex and dynamic user interfaces.
-# ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+# ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 The components I listed in my previous response are some of the most commonly used ones in Java Swing, but **Swing provides many more components** for building sophisticated GUIs. Here's a more detailed and comprehensive list of additional Swing components to further expand your understanding.
 
 ### 1. **Top-Level Containers**
