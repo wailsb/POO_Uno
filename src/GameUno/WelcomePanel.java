@@ -3,23 +3,38 @@ package GameUno;
 import java.awt.Button;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 class WelcomePanel extends JPanel {
 
 	private String IconPath=System.getProperty("user.dir")+"\\src\\resources\\Icon.png";
-	
-	WelcomePanel(){
-		
+	private JFrame Main;
+	WelcomePanel(JFrame MainWindow){
+
+		this.Main=MainWindow;
 		this.setLayout(new GridBagLayout());
+		
+		// Initialisation of Components :
 		JPanel Spacer=new JPanel();
 		GridBagConstraints gbc=new GridBagConstraints();
 		Button newGameBtn=new Button("Start a new Game");
 		Button loadOldGameBtn=new Button("Load old Game results");
 		JLabel imgLabel=new JLabel(new ImageIcon(IconPath));
+		// Button Click Events :
+		newGameBtn.addActionListener(
+				new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e){
+						newGameEv();
+					}
+		});
+		// Positioning the Components :
 		gbc.fill=GridBagConstraints.BOTH;
 		gbc.weightx=1.0;
 		gbc.weighty=1.0;
@@ -35,6 +50,18 @@ class WelcomePanel extends JPanel {
 		this.add(Spacer,gbc);
 		
 	}
+	private void newGameEv() {
+		if(this.Main != null) 
+		{
+			this.Main.remove(this);
+			this.Main.add(new newGamePanel());
+			this.Main.revalidate();
+			this.Main.repaint();
+		}
+	}
+
+	
+
 	
 
 }
