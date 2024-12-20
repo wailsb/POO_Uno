@@ -11,18 +11,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class WelcomePanel extends JPanel {
+class WelcomePanel extends PanelGBLayout{
 
-	private String IconPath=System.getProperty("user.dir")+"\\src\\resources\\Icon.png";
-	private JFrame Main;
+	private String IconPath;
+	
 	WelcomePanel(JFrame MainWindow){
-
-		this.Main=MainWindow;
-		this.setLayout(new GridBagLayout());
+		super(MainWindow);
+		this.IconPath=this.getDirPath()+"\\src\\resources\\Icon.png";
 		
 		// Initialisation of Components :
 		JPanel Spacer=new JPanel();
-		GridBagConstraints gbc=new GridBagConstraints();
 		Button newGameBtn=new Button("Start a new Game");
 		Button loadOldGameBtn=new Button("Load old Game results");
 		JLabel imgLabel=new JLabel(new ImageIcon(IconPath));
@@ -34,30 +32,47 @@ class WelcomePanel extends JPanel {
 						newGameEv();
 					}
 		});
+		loadOldGameBtn.addActionListener(
+			new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		// Positioning the Components :
-		gbc.fill=GridBagConstraints.BOTH;
-		gbc.weightx=1.0;
-		gbc.weighty=1.0;
-		gbc.gridx=0;
-		gbc.gridy=0;
-		this.add(imgLabel,gbc);
-		gbc.gridy=1;
-		this.add(newGameBtn,gbc);
-		gbc.gridy=2;
-		this.add(loadOldGameBtn,gbc);
-		gbc.weighty=0.5;
-		gbc.gridy=3;
-		this.add(Spacer,gbc);
+		this.setGBC(
+				0,0,
+				1,1,
+				1,1,
+				GridBagConstraints.BOTH,GridBagConstraints.CENTER
+				);
+		// Adding the Image
+		setGBC(0,0);
+		this.add(imgLabel,this.getGBC());
+		
+		// Adding the buttons
+		setGBC(0,1);
+		this.add(newGameBtn,this.getGBC());
+		setGBC(0,2);
+		this.add(loadOldGameBtn,this.getGBC());
+		
+		// Adding Spacer
+		this.getGBC().weighty=0.5;
+		setGBC(0,3);
+		this.add(Spacer,this.getGBC());
 		
 	}
 	private void newGameEv() {
-		if(this.Main != null) 
+		if(this.getMainWindow() != null) 
 		{
-			this.Main.remove(this);
-			this.Main.add(new newGamePanel());
-			this.Main.revalidate();
-			this.Main.repaint();
+			this.getMainWindow().remove(this);
+			this.getMainWindow().add(new newGamePanel(getMainWindow()));
+			this.getMainWindow().revalidate();
+			this.getMainWindow().repaint();
 		}
+	}
+	private void loadOldEv() {
+		System.out.println("not set yet");
 	}
 
 	
