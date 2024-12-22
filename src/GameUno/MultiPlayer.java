@@ -1,4 +1,6 @@
+package GameUno;
 import javax.swing.*;
+
 import java.awt.*;
 
 public class MultiPlayer extends PanelGBLayout {
@@ -23,7 +25,7 @@ public class MultiPlayer extends PanelGBLayout {
         playerCardPanel.add(new JLabel(new ImageIcon(getDirPath() + "\\src\\resources\\Icon.png")));
 
         JScrollPane scrollPane = new JScrollPane(playerCardPanel);
-        scrollPane.setPreferredSize(new Dimension(256, 256));
+        scrollPane.setPreferredSize(new Dimension(500, 256));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
