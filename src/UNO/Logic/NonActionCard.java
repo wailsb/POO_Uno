@@ -2,8 +2,11 @@ package Logic;
 
 public class NonActionCard extends Card {
     private final int value;
-    public NonActionCard(int value,String color) {
+    public NonActionCard(int value,Colors color) {
         super(color);
+        if (value < 0 || value > 9) {
+            throw new IllegalArgumentException("Please Enter A Valid Value");
+        }
         this.value = value;
     }
     public int getValue() {

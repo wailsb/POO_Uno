@@ -5,30 +5,34 @@ public class Deck {
     private ArrayList<Card> deck;
     public Deck() {
         this.deck = new ArrayList<Card>();
-        String[] colors = {"RED","YELLOW","BLUE","GREEN","BLACK"};
-        String[] actions = {"SKIP","REVERSE","DRAW_TWO","WILD","DRAW_FOUR_WILD"};
-        for (String color : colors) {
-            if (!color.equals("BLACK")) {
-                deck.add(new NonActionCard(0, color));
+        this.initializeDeck();
+        this.shuffleDeck();
+    }
+    public void initializeDeck() {
+        Card.Colors[] colors = Card.Colors.values();
+        ActionCard.Actions[] actions = ActionCard.Actions.values();
+        for (int i = 0;i < colors.length;i++) {
+            if (colors[i] != Card.Colors.BLACK) {
+                deck.add(new NonActionCard(0, colors[i]));
                 for (int j = 1; j <= 9; j++) {
-                    for (int k = 0; k < 2; k++) {
-                        deck.add(new NonActionCard(j, color));
-                    }
+                    deck.add(new NonActionCard(j, colors[i]));
+                    deck.add(new NonActionCard(j, colors[i]));
+
                 }
                 for (int j = 0; j <= 2; j++) {
-                    for (int k = 0; k < 2; k++) {
-                        deck.add(new ActionCard(actions[j], color));
-                    }
+                    deck.add(new ActionCard(actions[j], colors[i]));
+                    deck.add(new ActionCard(actions[j], colors[i]));
+
                 }
             } else {
                 for (int j = 3; j < actions.length; j++) {
-                    for (int k = 0; k < 4; k++) {
-                        deck.add(new ActionCard(actions[j], color));
-                    }
+                    deck.add(new ActionCard(actions[j], colors[i]));
+                    deck.add(new ActionCard(actions[j], colors[i]));
+                    deck.add(new ActionCard(actions[j], colors[i]));
+                    deck.add(new ActionCard(actions[j], colors[i]));
                 }
             }
         }
-        this.shuffleDeck();
     }
     public Card drawDeck() {
         return deck.removeLast();
