@@ -1,10 +1,12 @@
 package GameUno;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class PanelGBLayout extends JPanel {
 
@@ -80,4 +82,20 @@ public class PanelGBLayout extends JPanel {
 			this.gbc.fill = fill;      // How the component should resize
 			this.gbc.anchor = anchor;
 		}
+		public ImageIcon resizeIcon(String imagePath, int width, int height) {
+			try {
+				// Load the image
+				BufferedImage originalImage = ImageIO.read(new File(imagePath));
+				// Resize the image
+				Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				return new ImageIcon(resizedImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null; // Return null if there's an error
+			}
+		}
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(500, 600); // Match minimum size of JFrame
+	}
 }

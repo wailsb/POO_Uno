@@ -70,4 +70,5 @@ class WelcomePanel extends PanelGBLayout {
 	private void loadOldEv() {
 		System.out.println("not set yet");
 	}
+
 }

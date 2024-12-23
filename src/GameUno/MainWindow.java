@@ -1,9 +1,8 @@
 package GameUno;
 
-import java.awt.Dimension;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import java.awt.*;
 
 class MainWindow {
 	private JFrame MainWindow;
@@ -12,8 +11,6 @@ class MainWindow {
 
 		MainWindow = new JFrame();
 		MainWindow.setTitle("Uno Game");
-		MainWindow.setSize(600,600);
-		MainWindow.setMinimumSize(new Dimension(600,600));
 		MainWindow.setResizable(true);
 		MainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -24,6 +21,9 @@ class MainWindow {
 		
 		MainWindow.setIconImage(myImg.getImage());
 		MainWindow.add(welcomePanel);
+
+		MainWindow.setMinimumSize(new Dimension(500,600));
+		MainWindow.setSize(600,600);
 		MainWindow.setVisible(true);
 		
 	}
