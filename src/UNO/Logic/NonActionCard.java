@@ -1,4 +1,4 @@
-package Logic;
+package UNO.Logic;
 
 public class NonActionCard extends Card {
     private final int value;

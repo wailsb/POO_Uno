@@ -1,5 +1,7 @@
 package GameUno;
 
+import UNO.Logic.Deck;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,9 +12,6 @@ import java.awt.event.ComponentEvent;
 public class MultiPlayer extends PanelGBLayout {
     private int PlayerNumber;
     private Deck MainDeck;
-    private JLabel turnMessageLabel;
-    private JButton readyButton;
-    
     MultiPlayer(JFrame MainWindow, int PlayerNumber) {
         super(MainWindow);
         this.PlayerNumber = PlayerNumber;
@@ -29,10 +28,10 @@ public class MultiPlayer extends PanelGBLayout {
         playerCardPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         playerCardPanel.add(new JLabel());
-        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Yellow_0.jpg", 152, 225)));
-        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Blue_1.jpg", 152, 225)));
-        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Red_2.jpg", 152, 225)));
-        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Green_3.jpg", 152, 225)));
+        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Yellow_0.jpg",152,225)));
+        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Blue_1.jpg"  ,152,225)));
+        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Red_2.jpg"   ,152,225)));
+        playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Green_3.jpg" ,152,225)));
 
         JScrollPane scrollPane = new JScrollPane(playerCardPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -79,6 +78,7 @@ public class MultiPlayer extends PanelGBLayout {
                 OnResizeEv(scrollPane);
             }
         });
+
     }
 
     public void OnResizeEv(JScrollPane scrollPane) {

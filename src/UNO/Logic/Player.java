@@ -1,4 +1,4 @@
-package GameUno;
+package UNO.Logic;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,6 @@
 
-package GameUno;
+package UNO.Logic;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,19 +12,19 @@ public class NormalPlayer extends Player {
 
     @Override
     public Card playTurn(Card lastPlayedCard, Deck deck) {
-       Card Card =new Card();
-        if (!super.canPlayCard(lastPlayedCard).isEmpty()) {
-             Card = chooseCardToPlay(lastPlayedCard);
-            super.playCard(Card);
-            return Card;
+       Card normalPlayerCard =null;
+        if (!this.canPlayCard(lastPlayedCard).isEmpty()) {
+             normalPlayerCard = chooseCardToPlay(lastPlayedCard);
+            this.playCard(normalPlayerCard);
+            return normalPlayerCard;
         } else {
-            super.drawCard(deck);
-            if (!super.canPlayCard(lastPlayedCard).isEmpty()) {
-                 Card = canPlayCard(lastPlayedCard).get(0);
-                super.playCard(Card);
-                return Card;
+            this.drawCard(deck);
+            if (!this.canPlayCard(lastPlayedCard).isEmpty()) {
+                 normalPlayerCard = canPlayCard(lastPlayedCard).get(0);
+                this.playCard(normalPlayerCard);
+                return normalPlayerCard;
             }
-            return  Card;
+            return normalPlayerCard;
         }
     }
 
@@ -32,7 +33,7 @@ public class NormalPlayer extends Player {
          Scanner Scanner = new Scanner(System.in);
 
         ArrayList<Card> playableCard = new ArrayList<Card>();
-        playableCard = super.canPlayCard(lastPlayedCard);
+        playableCard = this.canPlayCard(lastPlayedCard);
 
         
         System.out.println("Available cards :");
