@@ -1,15 +1,18 @@
 package Logic;
 
 public class Card {
-    private final String color;
-    public Card(String color) {
+    public enum Colors {
+        RED,GREEN,BLACK,YELLOW,BLUE
+    }
+    private final Colors color;
+    public Card(Colors color) {
         this.color = color;
     }
-    public String getColor() {
+    public Colors getColor() {
         return this.color;
     }
     public boolean isPlayable(Card lastPlayedCard) {
-        return lastPlayedCard.getColor().equals(this.color) || this.color.equals("BLACK");
+        return lastPlayedCard.getColor() == this.color || this.color == Colors.BLACK;
     }
 }
 
