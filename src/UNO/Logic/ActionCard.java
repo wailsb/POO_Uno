@@ -1,4 +1,4 @@
-package Logic;
+package UNO.Logic;
 
 public class ActionCard extends Card {
     public enum Actions {

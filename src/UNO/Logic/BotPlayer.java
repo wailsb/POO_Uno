@@ -1,5 +1,5 @@
 
-package GameUno;
+package UNO.Logic;
 
 public class BotPlayer extends Player {
 
@@ -9,19 +9,19 @@ public class BotPlayer extends Player {
 
     @Override
     public Card playTurn(Card lastPlayedCard, Deck deck) {
-       Card Card =new Card();
-        if (!super.canPlayCard(lastPlayedCard).isEmpty()) {
-             Card = chooseCardToPlay(lastPlayedCard);
-            super.playCard(Card);
-            return Card;
+       Card botCard=null;
+        if (!this.canPlayCard(lastPlayedCard).isEmpty()) {
+            botCard = chooseCardToPlay(lastPlayedCard);
+            this.playCard(botCard);
+            return botCard;
         } else {
-            super.drawCard(deck);
-            if (!super.canPlayCard(lastPlayedCard).isEmpty()) {
-                 Card = canPlayCard(lastPlayedCard).get(0);
-                super.playCard(Card);
-                return Card;
+            this.drawCard(deck);
+            if (!this.canPlayCard(lastPlayedCard).isEmpty()) {
+                botCard = canPlayCard(lastPlayedCard).get(0);
+                this.playCard(botCard);
+                return botCard;
             }
-            return  Card;
+            return botCard;
         }
     }
 

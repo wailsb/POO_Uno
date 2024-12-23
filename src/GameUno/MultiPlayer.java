@@ -1,5 +1,7 @@
 package GameUno;
 
+import UNO.Logic.Deck;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -7,7 +9,7 @@ import java.awt.event.ComponentEvent;
 
 public class MultiPlayer extends PanelGBLayout {
     private int PlayerNumber;
-
+    private Deck MainDeck;
     MultiPlayer(JFrame MainWindow, int PlayerNumber) {
         super(MainWindow);
 
@@ -22,7 +24,7 @@ public class MultiPlayer extends PanelGBLayout {
         JPanel playerCardPanel = new JPanel();
         playerCardPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        playerCardPanel.add(new JLabel("Player's Cards: "));
+        playerCardPanel.add(new JLabel());
         playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Yellow_0.jpg",152,225)));
         playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Blue_1.jpg"  ,152,225)));
         playerCardPanel.add(new JLabel(this.resizeIcon(getDirPath() + "\\src\\resources\\Cards\\Red_2.jpg"   ,152,225)));
@@ -47,6 +49,7 @@ public class MultiPlayer extends PanelGBLayout {
                 OnResizeEv(scrollPane);
             }
         });
+
     }
     public void OnResizeEv(JScrollPane scrollPane){
         if(this.getMainWindow() != null){

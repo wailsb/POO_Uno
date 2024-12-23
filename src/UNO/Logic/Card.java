@@ -1,4 +1,4 @@
-package Logic;
+package UNO.Logic;
 
 public class Card {
     public enum Colors {
