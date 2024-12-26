@@ -28,8 +28,4 @@ public class PlayerTurnWindow extends JPanel {
         });
     }
 
-    // Method to show the window
-    public void showWindow() {
-        setVisible(true);
-    }
 }
