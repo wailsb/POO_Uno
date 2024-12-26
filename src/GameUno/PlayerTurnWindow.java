@@ -4,13 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlayerTurnWindow extends JFrame {
+public class PlayerTurnWindow extends JPanel {
     public PlayerTurnWindow() {
         // Set up the window
-        setTitle("Player 2 Turn");
         setSize(300, 200);
-        setLocationRelativeTo(null); // Center the window
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Add a label with a message
@@ -27,8 +24,6 @@ public class PlayerTurnWindow extends JFrame {
         readyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Close the window when the button is clicked
-                dispose();
             }
         });
     }
