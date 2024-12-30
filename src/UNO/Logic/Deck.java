@@ -1,5 +1,6 @@
-package UNO.Logic;
+package Logic;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     private ArrayList<Card> deck;
@@ -13,10 +14,10 @@ public class Deck {
         ActionCard.Actions[] actions = ActionCard.Actions.values();
         for (int i = 0;i < colors.length;i++) {
             if (colors[i] != Card.Colors.BLACK) {
-                deck.add(new NonActionCard(0, colors[i]));
+                deck.add(new ValueCard(0, colors[i]));
                 for (int j = 1; j <= 9; j++) {
-                    deck.add(new NonActionCard(j, colors[i]));
-                    deck.add(new NonActionCard(j, colors[i]));
+                    deck.add(new ValueCard(j, colors[i]));
+                    deck.add(new ValueCard(j, colors[i]));
 
                 }
                 for (int j = 0; j <= 2; j++) {
@@ -34,28 +35,15 @@ public class Deck {
             }
         }
     }
-    public Card drawDeck() {
+    public Card drawCard() {
         return deck.removeLast();
     }
-    public int getDeckSize() {
-        return deck.size();
-    }
     public void shuffleDeck() {
-        ArrayList<Card> tempDeck = new ArrayList<Card>();
-        ArrayList<Integer> ArrayIndex = new ArrayList<Integer>();
-        while (!(tempDeck.size() == deck.size())) {
-            int idx = (int) Math.floor(Math.random() * deck.size());
-            if (!ArrayIndex.contains(idx)) {
-                ArrayIndex.add(idx);
-                tempDeck.add(deck.get(idx));
-            }
-        }
-        deck = tempDeck;
+        Collections.shuffle(deck);
     }
     public ArrayList<Card> getDeck() {
         return this.deck;
     }
-
     public void addToDeck(Card card) {
         this.deck.add(card);
     }

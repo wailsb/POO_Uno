@@ -1,44 +1,55 @@
-package UNO.Logic;
-
+package Logic;
 import java.util.ArrayList;
 
 public abstract class Player {
     private final int id;
-    private final ArrayList<Card> cards;
-
+    private final ArrayList<Card> hand;
+    private Card.Colors forcedColor;
     public Player(int id) {
         this.id = id;
-        this.cards = new ArrayList<>();
+        this.hand = new ArrayList<>();
+        this.forcedColor = null;
+    }
+    public int getId() {
+        return this.id;
+    }
+    public ArrayList<Card> getHand() {
+        return this.hand;
+    }
+    public Card.Colors getForcedColor() {
+        return this.forcedColor;
+    }
+    public void setForcedColor(Card.Colors forcedColor) {
+        this.forcedColor = forcedColor;
     }
 
     public void drawCard(Deck deck) {
-        this.cards.add(deck.drawDeck());
+        this.hand.add(deck.drawCard());
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-
-    public void playCard(Card card) {
-        this.cards.remove(card);
-    }
-
-    public ArrayList<Card> canPlayCard(Card lastPlayedCard) {
+    public ArrayList<Card> getPlayableCards(Card lastPlayedCard) {
         ArrayList<Card> playableCards = new ArrayList<>();
-        for (Card card : cards) {
-            if (card.isPlayable(lastPlayedCard)) {
-                playableCards.add(card);
+        for (int i = 0; i < this.hand.size(); i++) {
+            if (forcedColor == null) {
+                if (this.hand.get(i).isPlayable(lastPlayedCard)) {
+                    playableCards.add(this.hand.get(i));
+                }
+            } else {
+                if (this.hand.get(i).getColor() == forcedColor) {
+                    playableCards.add(this.hand.get(i));
+                }
             }
         }
         return playableCards;
     }
-
-    public int getId() {
-        return id;
+    public boolean hasPlayableCard(Card lastPlayedCard) {
+        return !this.getPlayableCards(lastPlayedCard).isEmpty();
     }
-
-  
-    public abstract Card playTurn(Card lastPlayedCard, Deck deck);
-
-    public abstract Card chooseCardToPlay(Card lastPlayedCard);
+    public abstract Card.Colors chooseColor();
+    public abstract Card chooseCard(Card lastPlayedCard);
+    public Card play(Card lastPlayedCard) {
+        Card choosedCard = chooseCard(lastPlayedCard);
+        this.hand.remove(choosedCard);
+        return choosedCard;
+    }
 }

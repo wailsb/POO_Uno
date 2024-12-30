@@ -1,8 +1,8 @@
-package UNO.Logic;
+package Logic;
 
-public class NonActionCard extends Card {
+public class ValueCard extends Card {
     private final int value;
-    public NonActionCard(int value,Colors color) {
+    public ValueCard(int value,Colors color) {
         super(color);
         if (value < 0 || value > 9) {
             throw new IllegalArgumentException("Please Enter A Valid Value");
@@ -14,9 +14,10 @@ public class NonActionCard extends Card {
     }
     @Override
     public boolean isPlayable(Card lastPlayedCard) {
-        if (lastPlayedCard instanceof NonActionCard) {
-            return ((NonActionCard) lastPlayedCard).getValue() == this.value;
+        if (lastPlayedCard instanceof ValueCard) {
+            return ((ValueCard) lastPlayedCard).getValue() == this.value || super.isPlayable(lastPlayedCard);
         }
         return super.isPlayable(lastPlayedCard);
     }
+
 }

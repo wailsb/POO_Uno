@@ -1,4 +1,6 @@
-package UNO.Logic;
+package Logic;
+
+import java.util.ArrayList;
 
 public class ActionCard extends Card {
     public enum Actions {
@@ -26,7 +28,7 @@ public class ActionCard extends Card {
     @Override
     public boolean isPlayable(Card lastPlayedCard) {
         if (lastPlayedCard instanceof ActionCard) {
-            return ((ActionCard) lastPlayedCard ).getAction() == this.action;
+            return ((ActionCard) lastPlayedCard).getAction() == this.action || super.isPlayable(lastPlayedCard);
         }
         return super.isPlayable(lastPlayedCard);
     }
