@@ -47,9 +47,8 @@ public class Game {
         this.initializePlayers(numberOfHumanPlayers,numberOfPlayers);
         this.distributeCards();
         this.currentPlayerIndex = (int) (Math.random() * players.size());
-        System.out.println("The first Player is Player: " + this.currentPlayerIndex );
         System.out.println("Drawing first card...");
-        Card firstCard = new ActionCard(ActionCard.Actions.REVERSE,Card.Colors.YELLOW);
+        Card firstCard = deck.drawCard();
         while (firstCard instanceof ActionCard firstActionCard) {
             if (firstActionCard.getAction() == ActionCard.Actions.DRAW_FOUR_WILD) {
                 System.out.println("Drew a Draw Four Wild card - reshuffling...");
