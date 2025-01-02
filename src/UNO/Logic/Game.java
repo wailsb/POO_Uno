@@ -1,5 +1,6 @@
 package Logic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game {
@@ -99,7 +100,6 @@ public class Game {
                 executeTurn();
             }
             System.out.println("Drew a playable card!");
-
         }
         Card lastPlayedCard = currentPlayer.play(this.getLastPlayedCard());
         System.out.println("Player " + currentPlayer.getId() + " plays: " + cardToString(lastPlayedCard));
@@ -156,13 +156,10 @@ public class Game {
                 this.getNextPlayer().setForcedColor(chosenColor);
                 break;
             case WILD:
-                Card.Colors choosenColor = this.getCurrentPlayer().chooseColor();
-                System.out.println("Color changed to: " + choosenColor);
-                this.getNextPlayer().setForcedColor(choosenColor);
-
+                Card.Colors color = this.getCurrentPlayer().chooseColor();
+                System.out.println("Color changed to: " + color);
+                this.getNextPlayer().setForcedColor(color);
                 break;
-
-
         }
     }
     private Player getNextPlayer() {

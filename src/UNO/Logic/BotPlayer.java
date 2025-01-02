@@ -8,10 +8,10 @@ public class BotPlayer extends Player {
         super(id);
     }
     @Override
-    public Card.Colors chooseColor() {
+    public Card.Colors chooseColor() { // a function to choose a random color if the Bot played a wildCard
         return Card.Colors.values()[(int) (Math.random() * Card.Colors.values().length)];
     }
-    public Card chooseCard(Card lastPlayedCard) {
+    public Card chooseCard(Card lastPlayedCard) { // a function to choose a randomCard from the bot Playable Cards
         ArrayList<Card> cards = this.getPlayableCards(lastPlayedCard);
         return cards.get((int) (Math.random() * cards.size()));
     }
