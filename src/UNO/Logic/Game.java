@@ -1,5 +1,6 @@
 package Logic;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game {
@@ -87,9 +88,10 @@ public class Game {
         Player currentPlayer = this.getCurrentPlayer();
         System.out.println("\n========= PLAYER " + currentPlayer.getId() + "'s TURN =========");
         System.out.println("Current card: " + cardToString(getLastPlayedCard()));
+        this.getCurrentPlayer().setHand(new ArrayList<>());
         if (!currentPlayer.hasPlayableCard(this.getLastPlayedCard())) {
             System.out.println("Player " + currentPlayer.getId() + " has no playable cards - drawing a card");
-            currentPlayer.drawCard(this.deck);
+           currentPlayer.drawCard(this.deck);
             if (!currentPlayer.hasPlayableCard(this.getLastPlayedCard())) {
                 System.out.println("Still no playable cards - skipping turn");
                 if (currentPlayer.getForcedColor() != null) {
@@ -98,8 +100,8 @@ public class Game {
                 this.moveToNextPlayer();
                 executeTurn();
             }
+            System.out.println(this.getCurrentPlayer().getPlayableCards(this.getLastPlayedCard()));
             System.out.println("Drew a playable card!");
-
         }
         Card lastPlayedCard = currentPlayer.play(this.getLastPlayedCard());
         System.out.println("Player " + currentPlayer.getId() + " plays: " + cardToString(lastPlayedCard));
@@ -156,13 +158,10 @@ public class Game {
                 this.getNextPlayer().setForcedColor(chosenColor);
                 break;
             case WILD:
-                Card.Colors choosenColor = this.getCurrentPlayer().chooseColor();
-                System.out.println("Color changed to: " + choosenColor);
-                this.getNextPlayer().setForcedColor(choosenColor);
-
+                Card.Colors color = this.getCurrentPlayer().chooseColor();
+                System.out.println("Color changed to: " + color);
+                this.getNextPlayer().setForcedColor(color);
                 break;
-
-
         }
     }
     private Player getNextPlayer() {
