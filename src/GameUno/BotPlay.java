@@ -10,27 +10,27 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class MultiPlayer extends PanelGBLayout {
+public class BotPlay extends PanelGBLayout {
     private final GameGui game; // Store the GameGui instance
-    private final JLabel currentCardLabel;
-    private final JPanel playerCardPanel;
-    private final JButton drawButton; // Add a draw button
-    private JLabel InfoLab;
+    private final JLabel currentCardLabel; // Label to display the middle card
+    private final JPanel playerCardPanel; // Panel to display the human player's cards
+    private final JButton drawButton; // Button to draw a card
+    private JLabel InfoLab; // Label to display player info
 
-    MultiPlayer(JFrame MainWindow,int PlayersCount) {
+    BotPlay(JFrame MainWindow) {
         super(MainWindow);
 
-        this.game = new GameGui(PlayersCount, PlayersCount); // Initialize GameGui with the given number of players and 1 human player
+        // Initialize the game with 2 players (1 human, 1 bot)
+        this.game = new GameGui(1, 2);
         setGBC(0, 0, 3, 1, 1, 1);
 
-        // Display the current card
+        // Display the current card in the middle
         this.currentCardLabel = new JLabel();
         this.currentCardLabel.setHorizontalAlignment(SwingConstants.CENTER);
         updateCurrentCardDisplay();
-
         this.add(currentCardLabel, getGBC());
 
-        // Player card panel
+        // Player card panel (only human player's cards)
         setGBC(0, 1, 3, 1, 1, 1);
         this.playerCardPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         updatePlayerCardDisplay();
@@ -44,7 +44,7 @@ public class MultiPlayer extends PanelGBLayout {
         // Player info
         setGBC(0, 2, 3, 1, 1, 0);
         JPanel playerInfoPanel = new JPanel();
-        InfoLab = new JLabel("Player:" + (game.getCurrentPlayer().getId()+1) + " | Cards Remaining: " + game.getCurrentPlayer().getHand().size());
+        InfoLab = new JLabel("Player:" + (game.getCurrentPlayer().getId() + 1) + " | Cards Remaining: " + game.getCurrentPlayer().getHand().size());
         playerInfoPanel.add(InfoLab);
         this.add(playerInfoPanel, getGBC());
 
@@ -86,32 +86,36 @@ public class MultiPlayer extends PanelGBLayout {
         ArrayList<Card> cards = game.getCurrentPlayer().getHand();
         ArrayList<Card> playableCards = game.getCurrentPlayer().getPlayableCards(game.getLastPlayedCard());
 
-        for (int i = 0; i < cards.size(); i++) {
-            int cardIndex = i; // Index of the card in the full hand
-            JLabel label = new JLabel(this.resizeIcon(
-                    getDirPath() + "\\src\\resources\\Cards\\" + game.cardToString(cards.get(i)) + ".jpg",
-                    152, 225
-            ));
+        // Only update the human player's cards
+        if (game.getCurrentPlayer() instanceof HumanPlayer) {
+            for (int i = 0; i < cards.size(); i++) {
+                int cardIndex = i; // Index of the card in the full hand
+                JLabel label = new JLabel(this.resizeIcon(
+                        getDirPath() + "\\src\\resources\\Cards\\" + game.cardToString(cards.get(i)) + ".jpg",
+                        152, 225
+                ));
 
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (playableCards.contains(cards.get(cardIndex))) {
-                        int playableIndex = playableCards.indexOf(cards.get(cardIndex));
-                        ClickPlay(playableIndex);
-                        InfoLab.setText("Player:" + (game.getCurrentPlayer().getId()+1) + " | Cards Remaining: " + game.getCurrentPlayer().getHand().size());
-                    } else {
-                        JOptionPane.showMessageDialog(
-                                MultiPlayer.this.getMainWindow(),
-                                "This card is not playable.",
-                                "Invalid Move",
-                                JOptionPane.WARNING_MESSAGE
-                        );
+                label.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        InfoLab.setText("Player:" + (game.getCurrentPlayer().getId() + 1) + " | Cards Remaining: " + game.getCurrentPlayer().getHand().size());
+
+                        if (playableCards.contains(cards.get(cardIndex))) {
+                            int playableIndex = playableCards.indexOf(cards.get(cardIndex));
+                            ClickPlay(playableIndex);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    BotPlay.this.getMainWindow(),
+                                    "This card is not playable.",
+                                    "Invalid Move",
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+                        }
                     }
-                }
-            });
+                });
 
-            playerCardPanel.add(label);
+                playerCardPanel.add(label);
+            }
         }
 
         this.getMainWindow().revalidate();
@@ -123,39 +127,48 @@ public class MultiPlayer extends PanelGBLayout {
         ArrayList<Card> playableCards = bot.getPlayableCards(game.getLastPlayedCard());
 
         if (playableCards.isEmpty()) {
+            // Bot has no playable cards, so it draws a card
             bot.drawCard(game.getDeck());
             Card drawnCard = bot.getHand().get(bot.getHand().size() - 1);
 
             if (drawnCard.isPlayable(game.getLastPlayedCard())) {
+                // If the drawn card is playable, the bot plays it
                 Card.Colors chosenColor = null;
                 if (drawnCard instanceof ActionCard actionCard) {
                     if (actionCard.getAction() == ActionCard.Actions.Wild || actionCard.getAction() == ActionCard.Actions.DRAW_4_Wild) {
-                        chosenColor = bot.chooseColor();
+                        chosenColor = bot.chooseColor(); // Bot chooses a color for Wild cards
                     }
                 }
                 game.executeTurn(bot.getHand().indexOf(drawnCard), chosenColor != null ? chosenColor.name() : null);
             } else {
+                // If the drawn card is not playable, the bot skips its turn
                 game.moveToNextPlayer();
             }
         } else {
+            // Bot has playable cards, so it chooses one randomly
             Card chosenCard = bot.chooseCard(game.getLastPlayedCard());
             Card.Colors chosenColor = null;
 
             if (chosenCard instanceof ActionCard actionCard) {
                 if (actionCard.getAction() == ActionCard.Actions.Wild || actionCard.getAction() == ActionCard.Actions.DRAW_4_Wild) {
-                    chosenColor = bot.chooseColor();
+                    chosenColor = bot.chooseColor(); // Bot chooses a color for Wild cards
                 }
             }
 
+            // Bot plays the chosen card
             game.executeTurn(playableCards.indexOf(chosenCard), chosenColor != null ? chosenColor.name() : null);
+
+            updateCurrentCardDisplay();
+            updatePlayerCardDisplay();
         }
 
+        // Update the middle card display after the bot's turn
         updateCurrentCardDisplay();
-        updatePlayerCardDisplay();
 
         // Check if the game is over
         checkGameOver();
 
+        // If the game is not over and the next player is a bot, continue the bot's turn
         if (!game.isGameOver()) {
             if (game.getCurrentPlayer() instanceof BotPlayer) {
                 botTurn();
@@ -193,10 +206,12 @@ public class MultiPlayer extends PanelGBLayout {
             // Check if the game is over
             checkGameOver();
 
-            // Move to the next player if the game is not over
+            // Move to the next player (bot) if the game is not over
             if (!game.isGameOver()) {
+                currentPlayer=game.getNextPlayer();
                 if (game.getCurrentPlayer() instanceof BotPlayer) {
                     botTurn();
+
                 }
             }
         } catch (Exception e) {
@@ -211,7 +226,7 @@ public class MultiPlayer extends PanelGBLayout {
 
         // Check if the drawn card is playable
         if (drawnCard.isPlayable(game.getLastPlayedCard())) {
-            int choice = JOptionPane.showConfirmDialog(
+            JOptionPane.showMessageDialog(
                     this.getMainWindow(),
                     "You drew " + game.cardToString(drawnCard),
                     "Draw Card",
@@ -237,7 +252,7 @@ public class MultiPlayer extends PanelGBLayout {
         // Check if the game is over
         checkGameOver();
 
-        // Move to the next player if the game is not over
+        // Move to the next player (bot) if the game is not over
         if (!game.isGameOver()) {
             if (game.getCurrentPlayer() instanceof BotPlayer) {
                 botTurn();
@@ -250,7 +265,7 @@ public class MultiPlayer extends PanelGBLayout {
             Player winner = game.getWinner();
             JOptionPane.showMessageDialog(
                     this.getMainWindow(),
-                    "Game Over! The winner is Player " + (winner.getId()+1) + "!",
+                    "Game Over! The winner is Player " + (winner.getId() + 1) + "!",
                     "Game Over",
                     JOptionPane.INFORMATION_MESSAGE
             );

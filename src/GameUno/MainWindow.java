@@ -11,7 +11,7 @@ class MainWindow {
 
 		MainWindow = new JFrame();
 		MainWindow.setTitle("Uno Game");
-		MainWindow.setResizable(true);
+		MainWindow.setResizable(false);
 		MainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		
@@ -22,8 +22,8 @@ class MainWindow {
 		MainWindow.setIconImage(myImg.getImage());
 		MainWindow.add(welcomePanel);
 
-		MainWindow.setMinimumSize(new Dimension(500,600));
-		MainWindow.setSize(600,600);
+		MainWindow.setMinimumSize(new Dimension(500,650));
+		MainWindow.setSize(600,650);
 		MainWindow.setVisible(true);
 		
 	}

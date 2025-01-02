@@ -20,8 +20,14 @@ public class newGamePanel extends PanelGBLayout {
 		Button soloGameBtn = new Button("Solo");
 		Button multyPlayer = new Button("MultiPlayer");
 		JComboBox<String> numberOfPlayers = new JComboBox<>(Choices);
-		this.CurrentPlayer = numberOfPlayers.getSelectedIndex() + 1;
 
+		this.CurrentPlayer = numberOfPlayers.getSelectedIndex() + 2;
+		numberOfPlayers.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CurrentPlayer = numberOfPlayers.getSelectedIndex()+2;
+			}
+		});
 		// Styling the Buttons
 		backMainBtn.setBackground(new Color(255, 215, 0)); // Gold color
 		backMainBtn.setFont(new Font("Arial", Font.BOLD, 14));
@@ -36,6 +42,13 @@ public class newGamePanel extends PanelGBLayout {
 		multyPlayer.setForeground(Color.BLACK);
 
 		// Button click events
+		soloGameBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SoloEv();
+			}
+
+		});
+
 		backMainBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -77,6 +90,14 @@ public class newGamePanel extends PanelGBLayout {
 		this.add(numberOfPlayers, this.getGBC());
 	}
 
+	void SoloEv() {
+		if (this.getMainWindow() != null) {
+			this.getMainWindow().remove(this);
+			this.getMainWindow().add(new BotPlay(getMainWindow()));
+			this.getMainWindow().revalidate();
+			this.getMainWindow().repaint();
+		}
+	}
 	void BackEv() {
 		if (this.getMainWindow() != null) {
 			this.getMainWindow().remove(this);
